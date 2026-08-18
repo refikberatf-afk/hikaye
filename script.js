@@ -1,11 +1,10 @@
-// Örnekler kaldırılmış tertemiz 6 aşamalı sorular
+// İstediğin sıralamaya göre 5 aşamalı sorular
 const prompts = [
     { key: "who", label: "Kim?" },
-    { key: "where", label: "Nerede?" },
     { key: "withWho", label: "Kimle?" },
     { key: "when", label: "Ne zaman?" },
-    { key: "what", label: "Ne yaptı?" },
-    { key: "result", label: "En sonunda ne oldu?" }
+    { key: "where", label: "Nerede?" },
+    { key: "what", label: "Ne yapıyor?" }
 ];
 
 let players = [];
@@ -43,7 +42,7 @@ function showInputScreen() {
     let currentPrompt = prompts[currentStepIndex];
 
     document.getElementById('writer-name').textContent = currentPlayer;
-    document.getElementById('prompt-label').textContent = `Soru ${currentStepIndex + 1}/6: ${currentPrompt.label}`;
+    document.getElementById('prompt-label').textContent = `Soru ${currentStepIndex + 1}/5: ${currentPrompt.label}`;
     document.getElementById('user-input-field').value = "";
 }
 
@@ -72,7 +71,7 @@ function generateStory() {
     showScreen('result-screen');
     let outputDiv = document.getElementById('story-output');
 
-    // Sadece yazılan cevapları aralarında boşluk bırakarak yan yana / düz metin halinde diziyoruz
+    // Sadece yazılan cevapları aralarında boşluk bırakarak düz metin halinde diziyoruz
     let rawStory = storyLines.map(item => item.text).join(" ");
 
     let storyHTML = `<div class="story-text" style="font-size: 18px; line-height: 1.8; text-align: center;">`;

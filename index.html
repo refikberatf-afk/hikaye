@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kim, Nerede, Ne Yapıyor? - Parti Oyunu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <div class="game-container">
+        <!-- LOBİ EKRANI -->
+        <div id="lobby-screen" class="screen active">
+            <h1>📖 KİM, NEREDE, NE YAPIYOR?</h1>
+            <p>5 aşamalı gizli yazmaca, ortaya çıkan absürt hikayeye gülmece!</p>
+            
+            <div class="form-group">
+                <label>Oyuncu İsimleri (Virgülle ayır):</label>
+                <input type="text" id="player-names" value="Berat, Selim, Mushab">
+            </div>
+
+            <button onclick="startGame()" class="btn primary">Oyunu Başlat 🚀</button>
+        </div>
+
+        <!-- GİRİŞ EKRANI (ELDEN ELE YAZMA) -->
+        <div id="input-screen" class="screen">
+            <h2 id="current-writer-title">Sıradaki Oyuncu</h2>
+            <div class="card-box">
+                <p>Telefonu <b id="writer-name" class="highlight"></b> adlı oyuncuya ver!</p>
+                <p class="small-warn" style="margin-bottom: 15px;">Kimsenin ekranı görmediğinden emin ol.</p>
+                
+                <div class="form-group">
+                    <label id="prompt-label">Soru yükleniyor...</label>
+                    <input type="text" id="user-input-field" placeholder="Buraya yaz kanka...">
+                </div>
+            </div>
+            <button onclick="submitAnswer()" class="btn success">Kaydet & Sıradakine Ver ✓</button>
+        </div>
+
+        <!-- HİKAYE SONUÇ EKRANI -->
+        <div id="result-screen" class="screen">
+            <h2>🎉 İŞTE ORTAYA ÇIKAN BAASERESER!</h2>
+            <div class="result-box" id="story-output">
+                <!-- Hikaye burada yazacak -->
+            </div>
+            <button onclick="resetGame()" class="btn primary">Yeniden Oyna 🔄</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

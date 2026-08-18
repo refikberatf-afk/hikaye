@@ -72,17 +72,14 @@ function generateStory() {
     showScreen('result-screen');
     let outputDiv = document.getElementById('story-output');
 
-    let storyHTML = `<div class="story-text" style="font-size: 17px; line-height: 1.8;">`;
-    
-    storyHTML += `<p><b>📖 Ortaya Çıkan Eser:</b></p><br>`;
-    
-    let labels = ["Kim?", "Nerede?", "Kimle?", "Ne zaman?", "Ne yaptı?", "En sonunda ne oldu?"];
-    
-    storyLines.forEach((item, index) => {
-        storyHTML += `<p><b>${labels[index]}</b> ${item.text}</p>`;
-    });
+    // Sadece yazılan cevapları aralarında boşluk bırakarak yan yana / düz metin halinde diziyoruz
+    let rawStory = storyLines.map(item => item.text).join(" ");
 
+    let storyHTML = `<div class="story-text" style="font-size: 18px; line-height: 1.8; text-align: center;">`;
+    storyHTML += `<p style="margin-bottom: 15px; color: #38bdf8;"><b>📖 Ortaya Çıkan Eser:</b></p>`;
+    storyHTML += `<p>"${rawStory}"</p>`;
     storyHTML += `</div>`;
+    
     outputDiv.innerHTML = storyHTML;
 }
 

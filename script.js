@@ -1,16 +1,16 @@
-// 5 Aşamalı Tam Kombinasyon Soruları
+// Örnekler kaldırılmış tertemiz 6 aşamalı sorular
 const prompts = [
-    { key: "who", label: "Kim? (Örn: Ön kaldıran Berat, Nurgül Toksöz...)" },
-    { key: "where", label: "Nerede? (Örn: Hendekte, Metrobusün üstünde...)" },
-    { key: "withWho", label: "Kimle? (Örn: Köpek gören Mushab ile, tek başına...)" },
-    { key: "when", label: "Ne zaman? (Örn: Sınavda, gece 3'te, stajda...)" },
-    { key: "what", label: "Ne yapıyor? (Örn: Twerk atıyor, dildo arıyor, masaya dayıyor...)" }
+    { key: "who", label: "Kim?" },
+    { key: "where", label: "Nerede?" },
+    { key: "withWho", label: "Kimle?" },
+    { key: "when", label: "Ne zaman?" },
+    { key: "what", label: "Ne yaptı?" },
+    { key: "result", label: "En sonunda ne oldu?" }
 ];
 
 let players = [];
-let currentPlayerIndex = 0;
-let currentPromptIndex = 0;
-let gameData = {};
+let currentStepIndex = 0;
+let storyLines = [];
 
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -31,21 +31,19 @@ function startGame() {
         return;
     }
 
-    gameData = {};
-    players.forEach(p => gameData[p] = {});
-
-    currentPlayerIndex = 0;
-    currentPromptIndex = 0;
+    currentStepIndex = 0;
+    storyLines = [];
     showInputScreen();
 }
 
 function showInputScreen() {
     showScreen('input-screen');
-    let currentPlayer = players[currentPlayerIndex];
-    let currentPrompt = prompts[currentPromptIndex];
+    
+    let currentPlayer = players[currentStepIndex % players.length];
+    let currentPrompt = prompts[currentStepIndex];
 
     document.getElementById('writer-name').textContent = currentPlayer;
-    document.getElementById('prompt-label').textContent = `${currentPlayer} için soru (${currentPromptIndex + 1}/5): ${currentPrompt.label}`;
+    document.getElementById('prompt-label').textContent = `Soru ${currentStepIndex + 1}/6: ${currentPrompt.label}`;
     document.getElementById('user-input-field').value = "";
 }
 
@@ -56,20 +54,14 @@ function submitAnswer() {
         return;
     }
 
-    let currentPlayer = players[currentPlayerIndex];
-    let currentPromptKey = prompts[currentPromptIndex].key;
+    storyLines.push({
+        promptName: prompts[currentStepIndex].key,
+        text: val
+    });
 
-    // Cevabı kaydet
-    gameData[currentPlayer][currentPromptKey] = val;
+    currentStepIndex++;
 
-    // Sonraki soruya veya sonraki oyuncuya geç
-    currentPromptIndex++;
-    if (currentPromptIndex >= prompts.length) {
-        currentPromptIndex = 0;
-        currentPlayerIndex++;
-    }
-
-    if (currentPlayerIndex >= players.length) {
+    if (currentStepIndex >= prompts.length) {
         generateStory();
     } else {
         showInputScreen();
@@ -80,11 +72,14 @@ function generateStory() {
     showScreen('result-screen');
     let outputDiv = document.getElementById('story-output');
 
-    let storyHTML = `<div class="story-text">`;
-
-    players.forEach((p, index) => {
-        let d = gameData[p];
-        storyHTML += `<p style="margin-bottom: 14px;"><b>Olay ${index + 1}:</b> <b>${d.when}</b> zamanında, <b>${d.where}</b> mekanında, <b>${d.who}</b>, <b>${d.withWho}</b> yanına alarak <b>${d.what}</b> yapmaya başladı ve ortalık karıştı! 😎</p>`;
+    let storyHTML = `<div class="story-text" style="font-size: 17px; line-height: 1.8;">`;
+    
+    storyHTML += `<p><b>📖 Ortaya Çıkan Eser:</b></p><br>`;
+    
+    let labels = ["Kim?", "Nerede?", "Kimle?", "Ne zaman?", "Ne yaptı?", "En sonunda ne oldu?"];
+    
+    storyLines.forEach((item, index) => {
+        storyHTML += `<p><b>${labels[index]}</b> ${item.text}</p>`;
     });
 
     storyHTML += `</div>`;
